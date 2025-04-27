@@ -1036,6 +1036,22 @@ buffer."
                             nil
                             (cider--nrepl-pr-request-plist))))
 
+(defun cider-pprint-eval-last-sexp-and-replace ()
+  "Evaluate the expression preceding point and replace it with its
+pretty-printed result."
+  (interactive)
+  (let ((last-sexp (cider-last-sexp)))
+   ;; we have to be sure the evaluation won't result in an error
+   (cider-nrepl-sync-request:eval last-sexp)
+   ;; seems like the sexp is valid, so we can safely kill it
+   (let ((opoint (point)))
+     (clojure-backward-logical-sexp)
+     (kill-region (point) opoint))
+   (cider-interactive-eval last-sexp
+                           (cider-eval-print-handler)
+                           nil
+                           (cider--nrepl-print-request-plist fill-column))))
+
 (defun cider-eval-list-at-point (&optional output-to-current-buffer)
   "Evaluate the list (eg.  a function call, surrounded by parens) around point.
 If invoked with OUTPUT-TO-CURRENT-BUFFER, output the result to current buffer."

@@ -337,6 +337,7 @@ If invoked with a prefix ARG eval the expression after inserting it."
     ["Eval last sexp to REPL" cider-eval-last-sexp-to-repl]
     ["Eval last sexp and pretty-print to REPL" cider-pprint-eval-last-sexp-to-repl]
     ["Eval last sexp and pretty-print to comment" cider-pprint-eval-last-sexp-to-comment]
+    ["Eval last sexp and replace with pretty-print" cider-pprint-eval-last-sexp-and-replace]
     "--"
     ["Eval selected region if active, otherwise top-level sexp" cider-eval-dwim]
     ["Eval selected region" cider-eval-region]
@@ -916,7 +917,7 @@ namespace itself."
         (when (eq (char-after) ?\")
           (cider-start-of-next-sexp 1))
         ;; Attribute map
-        (when (eq (char-after) ?{)
+        (when (eq (char-after) ?{})
           (cider-start-of-next-sexp 1))
         ;; The arglist
         (pcase (char-after)
